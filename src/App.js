@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
 
+function validate(newElement, arr) {
+  const names = arr.map(element => element.name);
+  let result = names.includes(newElement);
+
+  (result)
+    ? result = ''
+    : result = newElement
+
+  return result;
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
@@ -8,10 +19,17 @@ const App = () => {
 
   const hadlePerson = (event) => {
     event.preventDefault();
-    const newPerson = { name: newName };
-    const newPersons = persons.concat(newPerson);
-    setPersons(newPersons);
-    setNewName('');
+
+    if (validate(newName, persons) === '') {
+      alert(`${newName} is already added`);
+      setNewName('');
+
+    } else {
+      const newPerson = { name: newName };
+      const newPersons = persons.concat(newPerson);
+      setPersons(newPersons);
+      setNewName('');
+    }
   }
   
   const handleName = (event) => {
