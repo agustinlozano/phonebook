@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
 import { Form } from './components/Form';
 import { Contacts } from './components/Contacts';
+import contactsServices from './services/contacts';
 
 const H2 = ({ content }) =>
   <h2>{content}</h2>
@@ -17,11 +17,11 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    contactsServices
+    .getAll()
+    .then(response => {
+      setPersons(response.data)
+    })
   }, [])
   console.log('render', persons.length, 'persons')
 
@@ -41,11 +41,8 @@ const App = () => {
       setPersons(newPersons);
       setBlankField(setNewName, setNewPhone);
 
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          console.log(newPersons)
-        })
+      contactsServices
+        .create(newPerson)
     }
   }
 
