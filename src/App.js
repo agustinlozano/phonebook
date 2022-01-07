@@ -15,7 +15,8 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
-
+  
+  /* Otener los datos del el servidor la primera vez */
   useEffect(() => {
     axios
       .get('http://localhost:3001/persons')
@@ -23,8 +24,11 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
+  
+  /* Console info */
   console.log('render', persons.length, 'persons')
 
+  /* Agregar un nuevo contacto a la lista */
   const handlePerson = (event) => {
     event.preventDefault();
 
@@ -40,7 +44,8 @@ const App = () => {
       const newPersons = persons.concat(newPerson);
       setPersons(newPersons);
       setBlankField(setNewName, setNewPhone);
-
+      
+      /* Alterar los datos en el servidor */
       axios
         .post('http://localhost:3001/persons', newPerson)
         .then(response => {
@@ -48,7 +53,8 @@ const App = () => {
         })
     }
   }
-
+  
+  /* Lo que renderiza la app */
   return (
     <div>
       <H2 content='Phonebook' />
@@ -65,6 +71,7 @@ const App = () => {
   );
 }
 
+/* Funciones de las cuales depende la app */
 const handleInput = (setField) => {
   const handler = (event) => {
     setField(event.target.value);
