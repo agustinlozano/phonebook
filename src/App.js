@@ -17,11 +17,9 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('');
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
@@ -42,6 +40,12 @@ const App = () => {
       const newPersons = persons.concat(newPerson);
       setPersons(newPersons);
       setBlankField(setNewName, setNewPhone);
+
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          console.log(newPersons)
+        })
     }
   }
 
