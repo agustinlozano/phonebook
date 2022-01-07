@@ -20,9 +20,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+      .then(response => setPersons(response.data))
   }, [])
   
   /* Console info */
@@ -72,6 +70,11 @@ const App = () => {
 }
 
 /* Funciones de las cuales depende la app */
+
+/* Esta funcion que toma como parametro otra funcion
+ * se encarga se setear un nuevo campo del formulario
+ * independientemente de cual sea
+ */
 const handleInput = (setField) => {
   const handler = (event) => {
     setField(event.target.value);
@@ -90,9 +93,9 @@ function validate(newElement, arr) {
   return result;
 }
 
-function setBlankField(name, phone) {
-  name('');
-  phone('');
+function setBlankField(setName, setPhone) {
+  setName('');
+  setPhone('');
 }
 
 export default App;
