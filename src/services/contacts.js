@@ -10,4 +10,11 @@ const create = newContact => {
   })
 }
 
-export default { getAll, create }
+const getDelete = (id, person) => {
+  const request = axios.delete(`${baseURL}/${id}`, person)
+  return request.then(response => 
+    console.log('Contact list has been updated')
+  )
+}
+
+export default { getAll, create, getDelete }

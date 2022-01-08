@@ -49,6 +49,23 @@ const App = () => {
     }
   }
 
+  /* Eliminar un contacto de la lista */
+  const handlerDelete = contact => {
+    const handler = () => {
+      const result = window.confirm(`Do you want delete ${contact.name} from the list?`)
+
+      if (result) {
+        const newContacts = persons.filter(person => person.id !== contact.id)
+        setPersons(newContacts)
+        
+        /* Actualizar los datos en el servidor */
+        contactsServices
+          .getDelete(contact.id, contact)
+      }
+    }
+    return handler
+  }
+
   return (
     <div>
       <H2 content='Phonebook' />
@@ -60,7 +77,10 @@ const App = () => {
         handlePhone={handleInput(setNewPhone)}
       />
       <H2 content='Numbers' />
-      <Contacts persons={persons} />
+      <Contacts 
+        persons={persons} 
+        deletePerson={handlerDelete}
+      />
     </div>
   );
 }

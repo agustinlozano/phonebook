@@ -1,4 +1,6 @@
-export const Contacts = ({ persons }) => {
+import { DeleteContact } from "./DeleteContact";
+
+export const Contacts = ({ persons, deletePerson }) => {
   return (
     <div>
       <ol>
@@ -8,6 +10,10 @@ export const Contacts = ({ persons }) => {
               `contact: ${person.name},
               phone: ${person.phone}`
             }
+            <DeleteContact 
+              handleDelete={deletePerson}
+              person={person}
+            />
           </li>
         )}
       </ol>
