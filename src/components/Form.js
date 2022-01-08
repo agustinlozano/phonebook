@@ -3,9 +3,9 @@ const Input = ({ field, value, handle }) =>
     <input value={value} onChange={handle} />
   </div>
 
-export const Form = ({ handlePerson, name, phone, handleName, handlePhone }) => {
+export const Form = ({ handleAddConctact, name, phone, handleName, handlePhone }) => {
   return (
-    <form onSubmit={handlePerson} >
+    <form onSubmit={handleAddConctact} >
       <Input
         field='Name'
         value={name}

@@ -7,7 +7,7 @@ const H2 = ({ content }) =>
   <h2>{content}</h2>
 
 const App = () => {
-  const [persons, setPersons] = useState([
+  const [contacts, setContacts] = useState([
     {
       name: 'Arto Hellas',
       phone: 2477345212
@@ -20,29 +20,42 @@ const App = () => {
   useEffect(() => {
     contactsServices
     .getAll()
-    .then(response => setPersons(response.data))
+    .then(response => setContacts(response.data))
   }, [])
 
   /* Agregar un nuevo contacto a la lista */
-  const handlePerson = (event) => {
+  const handleAddContact = (event) => {
     event.preventDefault();
+    const newContact = {
+      name: newName,
+      phone: newPhone
+    };
 
-    if (validate(newName, persons) === '') {
-      alert(`${newName} is already added`);
-      setBlankField(setNewName, setNewPhone);
+    if (validate(newName, contacts) === '') {
+      const result = window.confirm(
+        `${newName} is alreay added to phonebook, replace the old number with a new one?`)
+      if (result) {
+        const newContacts = contacts.concat(newContact);
+        setContacts(newContacts)
+        setBlankField(setNewName, setNewPhone)
+        
+        /* Reemplazar los los datos del contacto en el servidor */
+        const ID = findID(newContact, contacts)
+        contactsServices
+          .update(ID, newContact)
+
+      } else {
+        setBlankField(setNewName, setNewPhone);
+      }
 
     } else {
-      const newPerson = {
-        name: newName,
-        phone: newPhone
-      };
-      const newPersons = persons.concat(newPerson);
-      setPersons(newPersons);
+      const newContacts = contacts.concat(newContact);
+      setContacts(newContacts)
       setBlankField(setNewName, setNewPhone);
-
+      
       /* Alterar los datos en el servidor */
       contactsServices
-        .create(newPerson)
+        .create(newContact)
     }
   }
 
@@ -51,8 +64,8 @@ const App = () => {
     const handler = () => {
       const result = window.confirm(`Do you want to remove ${contact.name} from the list?`)
       if (result) {
-        const newContacts = persons.filter(person => person.id !== contact.id)
-        setPersons(newContacts)
+        const newContacts = contacts.filter(person => person.id !== contact.id)
+        setContacts(newContacts)
         
         /* Actualizar los datos en el servidor */
         contactsServices
@@ -66,7 +79,7 @@ const App = () => {
     <div>
       <H2 content='Phonebook' />
       <Form
-        handlePerson={handlePerson}
+        handleAddConctact={handleAddContact}
         name={newName}
         phone={newPhone}
         handleName={handleInput(setNewName)}
@@ -74,7 +87,7 @@ const App = () => {
       />
       <H2 content='Numbers' />
       <Contacts 
-        persons={persons} 
+        contacts={contacts} 
         deletePerson={handleDelete}
       />
     </div>
@@ -108,6 +121,13 @@ function validate(newElement, arr) {
 function setBlankField(setName, setPhone) {
   setName('');
   setPhone('');
+}
+
+function findID(newPerson, persons) {
+  const isTheContact = persons.find(person =>
+    person.name === newPerson.name)
+
+  return isTheContact.id
 }
 
 export default App;

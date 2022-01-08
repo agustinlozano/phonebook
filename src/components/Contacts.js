@@ -1,10 +1,10 @@
 import { DeleteContact } from "./DeleteContact";
 
-export const Contacts = ({ persons, deletePerson }) => {
+export const Contacts = ({ contacts, deletePerson }) => {
   return (
     <div>
       <ol>
-        {persons.map((person) =>
+        {contacts.map(person =>
           <li key={person.name}>
             {
               `contact: ${person.name},
