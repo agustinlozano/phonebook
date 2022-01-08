@@ -11,7 +11,7 @@ export const Contacts = ({ persons, deletePerson }) => {
               phone: ${person.phone}`
             }
             <DeleteContact 
-              handleDelete={deletePerson}
+              handle={deletePerson}
               person={person}
             />
           </li>

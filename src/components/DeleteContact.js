@@ -1,6 +1,6 @@
-export const DeleteContact = ({ handleDelete, person }) => {
+export const DeleteContact = ({ handle, person }) => {
   return (
-    <button onClick={handleDelete(person)} >
+    <button onClick={handle(person)} >
       delete
     </button>
   )

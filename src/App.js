@@ -23,9 +23,6 @@ const App = () => {
     .then(response => setPersons(response.data))
   }, [])
 
-  /* Console info */
-  console.log('render', persons.length, 'persons')
-
   /* Agregar un nuevo contacto a la lista */
   const handlePerson = (event) => {
     event.preventDefault();
@@ -50,10 +47,9 @@ const App = () => {
   }
 
   /* Eliminar un contacto de la lista */
-  const handlerDelete = contact => {
+  const handleDelete = contact => {
     const handler = () => {
-      const result = window.confirm(`Do you want delete ${contact.name} from the list?`)
-
+      const result = window.confirm(`Do you want to remove ${contact.name} from the list?`)
       if (result) {
         const newContacts = persons.filter(person => person.id !== contact.id)
         setPersons(newContacts)
@@ -79,7 +75,7 @@ const App = () => {
       <H2 content='Numbers' />
       <Contacts 
         persons={persons} 
-        deletePerson={handlerDelete}
+        deletePerson={handleDelete}
       />
     </div>
   );
