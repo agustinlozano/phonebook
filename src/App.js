@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Form } from './components/Form';
-import { Contacts } from './components/Contacts';
-import { Notification } from './components/Notification';
-import contactsServices from './services/contacts';
+import React, { useState, useEffect } from 'react'
+import { Form } from './components/Form'
+import { Contacts } from './components/Contacts'
+import { SuccessNotification } from './components/Notifications'
+import contactsServices from './services/contacts'
 
 const H2 = ({ content }) =>
   <h2>{content}</h2>
@@ -13,10 +13,11 @@ const App = () => {
       name: 'Arto Hellas',
       phone: 2477345212
     }
-  ]);
-  const [newName, setNewName] = useState('');
-  const [newPhone, setNewPhone] = useState('');
-  const [successMessage, setSuccessMessage] = useState(null)
+  ])
+  const [newName, setNewName] = useState('')
+  const [newPhone, setNewPhone] = useState('')
+  const [typeNotification, setNotification] = useState('')
+  const [message, setMessage] = useState(null)
 
   /* Otener los datos del el servidor la primera vez */
   useEffect(() => {
@@ -27,38 +28,47 @@ const App = () => {
 
   /* Agregar un nuevo contacto a la lista */
   const handleAddContact = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const newContact = {
       name: newName,
       phone: newPhone
-    };
+    }
 
     if (validate(newName, contacts) === '') {
       const result = window.confirm(
         `${newName} is alreay added to phonebook, replace the old number with a new one?`)
       if (result) {
-        const newContacts = contacts.concat(newContact);
+        const newContacts = contacts.concat(newContact)
         const message = `'${newName}' has been updated`
 
         setContacts(newContacts)
         setBlankField(setNewName, setNewPhone)
-        showSuccessMessage(setSuccessMessage, message)
+
+        setNotification('success-message')
+        showMessage(setMessage, message)
         
         /* Reemplazar los los datos del contacto en el servidor */
         const ID = findID(newContact, contacts)
         contactsServices
           .update(ID, newContact)
+          .catch(error => {
+            const errorMessage = 'Error: contact could\'t be update'
+            setNotification('failure-message')
+            showMessage(setMessage, errorMessage)
+            console.log(error)
+          })
 
       } else {
-        setBlankField(setNewName, setNewPhone);
+        setBlankField(setNewName, setNewPhone)
       }
 
     } else {
-      const newContacts = contacts.concat(newContact);
+      const newContacts = contacts.concat(newContact)
       const message = `'${newName}' has been added`
       setContacts(newContacts)
-      setBlankField(setNewName, setNewPhone);
-      showSuccessMessage(setSuccessMessage, message)
+      setBlankField(setNewName, setNewPhone)
+      setNotification('success-message')
+      showMessage(setMessage, message)
       
       /* Alterar los datos en el servidor */
       contactsServices
@@ -85,7 +95,10 @@ const App = () => {
   return (
     <div>
       <H2 content='Phonebook' />
-      <Notification message={successMessage} />
+      <SuccessNotification 
+        message={message} 
+        type={typeNotification}
+      />
       <Form
         handleAddConctact={handleAddContact}
         name={newName}
@@ -99,7 +112,7 @@ const App = () => {
         deletePerson={handleDelete}
       />
     </div>
-  );
+  )
 }
 
 /* Funciones de las cuales depende la app */
@@ -110,25 +123,25 @@ const App = () => {
  */
 const handleInput = (setField) => {
   const handler = (event) => {
-    setField(event.target.value);
+    setField(event.target.value)
   }
-  return handler;
+  return handler
 }
 
 function validate(newElement, arr) {
-  const names = arr.map(element => element.name);
+  const names = arr.map(element => element.name)
   let result = names.includes(newElement);
 
   (result)
     ? result = ''
     : result = newElement
 
-  return result;
+  return result
 }
 
 function setBlankField(setName, setPhone) {
-  setName('');
-  setPhone('');
+  setName('')
+  setPhone('')
 }
 
 function findID(newPerson, persons) {
@@ -138,9 +151,9 @@ function findID(newPerson, persons) {
   return isTheContact.id
 }
 
-function showSuccessMessage(setMessage, message) {
+function showMessage(setMessage, message) {
   setMessage(message)
-  setTimeout(() => { setMessage(null) }, 2500)
+  setTimeout(() => { setMessage(null) }, 3500)
 }
 
-export default App;
+export default App

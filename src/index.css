@@ -53,3 +53,13 @@ input {
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.failure-message {
+  color: #d74343;
+  background: lightgrey;
+  font-size: 15px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
