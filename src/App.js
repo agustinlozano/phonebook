@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from './components/Form';
 import { Contacts } from './components/Contacts';
+import { Notification } from './components/Notification';
 import contactsServices from './services/contacts';
 
 const H2 = ({ content }) =>
@@ -15,6 +16,7 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null)
 
   /* Otener los datos del el servidor la primera vez */
   useEffect(() => {
@@ -36,8 +38,11 @@ const App = () => {
         `${newName} is alreay added to phonebook, replace the old number with a new one?`)
       if (result) {
         const newContacts = contacts.concat(newContact);
+        const message = `'${newName}' has been updated`
+
         setContacts(newContacts)
         setBlankField(setNewName, setNewPhone)
+        showSuccessMessage(setSuccessMessage, message)
         
         /* Reemplazar los los datos del contacto en el servidor */
         const ID = findID(newContact, contacts)
@@ -50,8 +55,10 @@ const App = () => {
 
     } else {
       const newContacts = contacts.concat(newContact);
+      const message = `'${newName}' has been added`
       setContacts(newContacts)
       setBlankField(setNewName, setNewPhone);
+      showSuccessMessage(setSuccessMessage, message)
       
       /* Alterar los datos en el servidor */
       contactsServices
@@ -78,6 +85,7 @@ const App = () => {
   return (
     <div>
       <H2 content='Phonebook' />
+      <Notification message={successMessage} />
       <Form
         handleAddConctact={handleAddContact}
         name={newName}
@@ -128,6 +136,11 @@ function findID(newPerson, persons) {
     person.name === newPerson.name)
 
   return isTheContact.id
+}
+
+function showSuccessMessage(setMessage, message) {
+  setMessage(message)
+  setTimeout(() => { setMessage(null) }, 2500)
 }
 
 export default App;

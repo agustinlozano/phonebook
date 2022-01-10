@@ -43,3 +43,13 @@ input {
   height: 30px;
   margin-left: 0;
 }
+
+.success-message {
+  color: #71B340;
+  background: lightgrey;
+  font-size: 15px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
