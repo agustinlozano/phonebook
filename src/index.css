@@ -5,9 +5,41 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: rgb(93, 163, 153);
+  color: #35393C;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h2 {
+  text-align: center;
+}
+
+button {
+  background-color: #397367;
+  color: #63CCCA;
+  border: none;
+  border-radius: 5px;
+  width: 70px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+input {
+  background-color: #63CCCA;
+  color: #35393C;
+  border: none;
+  border-radius: 5px;
+  margin-left: 5px;
+  outline: none;
+  padding-left: 10px;
+}
+
+.add-contact {
+  width: 100px;
+  height: 30px;
+  margin-left: 0;
 }

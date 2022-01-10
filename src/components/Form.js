@@ -17,7 +17,7 @@ export const Form = ({ handleAddConctact, name, phone, handleName, handlePhone }
         handle={handlePhone}
       />
       <div>
-        <button type="submit">add</button>
+        <button type="submit" className="add-contact">add</button>
       </div>
     </form>
   );
