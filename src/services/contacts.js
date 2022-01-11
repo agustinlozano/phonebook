@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/persons'
+const baseURL = 'https://protected-tor-63201.herokuapp.com/api/persons'
 
 const getAll = () => axios.get(baseURL)
 
