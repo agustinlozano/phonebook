@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 /* Proviene del deploy de mi API */
-const baseURL = 'https://protected-tor-63201.herokuapp.com/api/persons'
+const baseURL = '/api/persons'
 
 export const getAll = () => axios.get(baseURL)
 
