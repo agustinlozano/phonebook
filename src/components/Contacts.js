@@ -6,10 +6,11 @@ export const Contacts = ({ contacts, deletePerson }) => {
       <ol>
         {contacts.map(person =>
           <li key={person.name}>
-            {
-              `contact: ${person.name},
-              phone: ${person.phone}`
-            }
+            <strong>Contact: </strong>
+              {person.name}
+            <strong>&nbsp;Phone: </strong>
+              {person.phone}
+            <br />
             <DeleteContact 
               handle={deletePerson}
               person={person}
