@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Form } from './components/Form'
-import { Contacts } from './components/Contacts'
-import { SuccessNotification } from './components/Notifications'
-import contactsServices from './services/contacts'
+import { Form } from './src/components/Form'
+import { Contacts } from './src/components/Contacts'
+import { SuccessNotification } from './src/components/Notifications'
+import contactsServices from './src/services/contacts'
 
 const H2 = ({ content }) =>
   <h2>{content}</h2>
@@ -61,20 +61,25 @@ const App = () => {
       setBlankField(setNewName, setNewPhone)
 
     } else {
-      const newContacts = contacts.concat(newContact)
-      const message = `'${newName}' has been added`
-      setContacts(newContacts)
-      setBlankField(setNewName, setNewPhone)
-      setNotification('success-message')
-      showMessage(setMessage, message)
-      
       /* Alterar los datos en el servidor */
       contactsServices
         .create(newContact)
+        .then(async newContact => {
+          const newContacts = contacts.concat(newContact)
+          const message = `'${newName}' has been added`
+          
+          await setContacts(newContacts)
+          await setNotification('success-message')
+          await showMessage(setMessage, message)
+          await setBlankField(setNewName, setNewPhone)
+        })
         .catch(error => {
           /* access the error message */
+          const message = `${error.response.data}`
+          setNotification('failure-message')
+          showMessage(setMessage, message)
+          setBlankField(setNewName, setNewPhone)
           console.log(error.response.data)
-          setNotification(error.response.data)
         })
     }
   }
@@ -97,7 +102,7 @@ const App = () => {
 
   return (
     <div>
-      <H2 content='Phonebook' />
+      <H2 content="Wizard's Contacts" />
       <SuccessNotification 
         message={message} 
         type={typeNotification}
