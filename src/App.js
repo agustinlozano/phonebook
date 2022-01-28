@@ -34,16 +34,16 @@ const App = () => {
       phone: newPhone
     }
 
-    if (validate(newName, contacts) === '') {
-      const result = window.confirm(
+    const result = validate(newName, contacts)
+
+    if (result === 'AlreadyAdded') {
+      const choice = window.confirm(
         `${newName} is alreay added to phonebook, replace the old number with a new one?`)
-      if (result) {
+      if (choice) {
         const newContacts = contacts.concat(newContact)
         const message = `'${newName}' has been updated`
 
         setContacts(newContacts)
-        setBlankField(setNewName, setNewPhone)
-
         setNotification('success-message')
         showMessage(setMessage, message)
         
@@ -57,10 +57,8 @@ const App = () => {
             showMessage(setMessage, errorMessage)
             console.log(error)
           })
-
-      } else {
-        setBlankField(setNewName, setNewPhone)
       }
+      setBlankField(setNewName, setNewPhone)
 
     } else {
       const newContacts = contacts.concat(newContact)
@@ -73,6 +71,11 @@ const App = () => {
       /* Alterar los datos en el servidor */
       contactsServices
         .create(newContact)
+        .catch(error => {
+          /* access the error message */
+          console.log(error.response.data)
+          setNotification(error.response.data)
+        })
     }
   }
 
@@ -106,7 +109,7 @@ const App = () => {
         handleName={handleInput(setNewName)}
         handlePhone={handleInput(setNewPhone)}
       />
-      <H2 content='Numbers' />
+      <H2 content='Contacts list' />
       <Contacts 
         contacts={contacts} 
         deletePerson={handleDelete}
@@ -128,16 +131,17 @@ const handleInput = (setField) => {
   return handler
 }
 
-function validate(newElement, arr) {
+function validate(name, arr) {
   const names = arr.map(element => element.name)
-  let result = names.includes(newElement);
-
-  (result)
-    ? result = ''
-    : result = newElement
+  let result;
+  
+  (names.includes(name))
+    ? result = 'AlreadyAdded'
+    : result = name
 
   return result
 }
+
 
 function setBlankField(setName, setPhone) {
   setName('')
