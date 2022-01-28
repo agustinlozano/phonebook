@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Form } from './src/components/Form'
-import { Contacts } from './src/components/Contacts'
-import { SuccessNotification } from './src/components/Notifications'
-import contactsServices from './src/services/contacts'
+import { Form } from './components/Form'
+import { Contacts } from './components/Contacts'
+import { SuccessNotification } from './components/Notifications'
+import contactsServices from './services/contacts'
 
 const H2 = ({ content }) =>
   <h2>{content}</h2>
@@ -75,7 +75,7 @@ const App = () => {
         })
         .catch(error => {
           /* access the error message */
-          const message = `${error.response.data}`
+          const message = error.response.data.error
           setNotification('failure-message')
           showMessage(setMessage, message)
           setBlankField(setNewName, setNewPhone)
@@ -162,7 +162,7 @@ function findID(newPerson, persons) {
 
 function showMessage(setMessage, message) {
   setMessage(message)
-  setTimeout(() => { setMessage(null) }, 3500)
+  setTimeout(() => { setMessage(null) }, 5000)
 }
 
 export default App
