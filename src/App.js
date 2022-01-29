@@ -64,22 +64,22 @@ const App = () => {
       /* Alterar los datos en el servidor */
       contactsServices
         .create(newContact)
-        .then(async newContact => {
+        .then(() => {
           const newContacts = contacts.concat(newContact)
           const message = `'${newName}' has been added`
           
-          await setContacts(newContacts)
-          await setNotification('success-message')
-          await showMessage(setMessage, message)
-          await setBlankField(setNewName, setNewPhone)
+
+          setContacts(newContacts)
+          setNotification('success-message')
+          showMessage(setMessage, message)
+          setBlankField(setNewName, setNewPhone)
         })
         .catch(error => {
           /* access the error message */
-          const message = error.response.data.error
+          const message = error.response.data
           setNotification('failure-message')
-          showMessage(setMessage, message)
+          showMessage(setMessage, message.error)
           setBlankField(setNewName, setNewPhone)
-          console.log(error.response.data)
         })
     }
   }
