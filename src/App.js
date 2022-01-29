@@ -50,7 +50,7 @@ const App = () => {
         /* Reemplazar los los datos del contacto en el servidor */
         const ID = findID(newContact, contacts)
         contactsServices
-          .update(ID, newContact)
+          .update(ID, newContacts)
           .catch(error => {
             const errorMessage = 'Error: contact could\'t be update'
             setNotification('failure-message')
