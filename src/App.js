@@ -1,87 +1,38 @@
 import React, { useState, useEffect } from 'react'
-import { Form } from './components/Form'
+import ContactForm from './components/ContactForm'
+import LoginForm from './components/LoginForm'
 import { Contacts } from './components/Contacts'
 import { SuccessNotification } from './components/Notifications'
-import contactsServices from './services/contacts'
-
-const H2 = ({ content }) =>
-  <h2>{content}</h2>
+import { Subtitle } from './components/Subtitle'
+import contactServices from './services/contacts'
+import { showMessage } from './utils/helper_methods'
 
 const App = () => {
-  const [contacts, setContacts] = useState([
-    {
-      name: 'Arto Hellas',
-      phone: 2477345212
-    }
-  ])
-  const [newName, setNewName] = useState('')
-  const [newPhone, setNewPhone] = useState('')
+  const [contacts, setContacts] = useState([])
   const [typeNotification, setNotification] = useState('')
   const [message, setMessage] = useState(null)
+  const [user, setUser] = useState(false)
 
   /* Otener los datos del el servidor la primera vez */
   useEffect(() => {
-    contactsServices
-    .getAll()
-    .then(response => setContacts(response.data))
+    contactServices
+      .getAll()
+      .then(response => setContacts(response.data))
   }, [])
 
-  /* Agregar un nuevo contacto a la lista */
-  const handleAddContact = (event) => {
-    event.preventDefault()
-    const newContact = {
-      name: newName,
-      phone: newPhone
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedContactAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      contactServices.setToken(user.token)
     }
+  }, [])
 
-    const result = validate(newName, contacts)
-
-    if (result === 'AlreadyAdded') {
-      const choice = window.confirm(
-        `${newName} is alreay added to phonebook, replace the old number with a new one?`)
-      if (choice) {
-        const newContacts = contacts.concat(newContact)
-        const message = `'${newName}' has been updated`
-
-        setContacts(newContacts)
-        setNotification('success-message')
-        showMessage(setMessage, message)
-        
-        /* Reemplazar los los datos del contacto en el servidor */
-        const ID = findID(newContact, contacts)
-        contactsServices
-          .update(ID, newContact)
-          .catch(error => {
-            const errorMessage = 'Error: contact could\'t be update'
-            setNotification('failure-message')
-            showMessage(setMessage, errorMessage)
-            console.log(error)
-          })
-      }
-      setBlankField(setNewName, setNewPhone)
-
-    } else {
-      /* Alterar los datos en el servidor */
-      contactsServices
-        .create(newContact)
-        .then(() => {
-          const newContacts = contacts.concat(newContact)
-          const message = `'${newName}' has been added`
-          
-
-          setContacts(newContacts)
-          setNotification('success-message')
-          showMessage(setMessage, message)
-          setBlankField(setNewName, setNewPhone)
-        })
-        .catch(error => {
-          /* access the error message */
-          const message = error.response.data
-          setNotification('failure-message')
-          showMessage(setMessage, message.error)
-          setBlankField(setNewName, setNewPhone)
-        })
-    }
+  const addContact = (newContacts, typeNotification, message) => {
+    setContacts(newContacts = contacts)
+    setNotification(typeNotification)
+    showMessage(setMessage, message)
   }
 
   /* Eliminar un contacto de la lista */
@@ -91,78 +42,46 @@ const App = () => {
       if (result) {
         const newContacts = contacts.filter(person => person.id !== contact.id)
         setContacts(newContacts)
-        
+
         /* Actualizar los datos en el servidor */
-        contactsServices
+        contactServices
           .getDelete(contact.id, contact)
       }
     }
     return handler
   }
 
+  const handleLogout = () => {
+    setUser(null)
+    contactServices.setToken(user.token)
+    window.localStorage.removeItem('loggedNoteAppUser')
+  }
+
   return (
     <div>
-      <H2 content="Wizard's Contacts" />
-      <SuccessNotification 
-        message={message} 
+      <h1>Wizard's Contacts</h1>
+      <SuccessNotification
+        message={message}
         type={typeNotification}
       />
-      <Form
-        handleAddConctact={handleAddContact}
-        name={newName}
-        phone={newPhone}
-        handleName={handleInput(setNewName)}
-        handlePhone={handleInput(setNewPhone)}
-      />
-      <H2 content='Contacts list' />
-      <Contacts 
-        contacts={contacts} 
+      {
+        user
+          ? <ContactForm
+              contacts={contacts}
+              addContact={addContact}
+              handleLogout={handleLogout}
+            />
+          : <LoginForm
+              handleUser={setUser}
+            />
+      }
+      <Subtitle content='Contacts list' />
+      <Contacts
+        contacts={contacts}
         deletePerson={handleDelete}
       />
     </div>
   )
-}
-
-/* Funciones de las cuales depende la app */
-
-/* Esta funcion que toma como parametro otra funcion
- * se encarga se setear un nuevo campo del formulario
- * independientemente de cual sea
- */
-const handleInput = (setField) => {
-  const handler = (event) => {
-    setField(event.target.value)
-  }
-  return handler
-}
-
-function validate(name, arr) {
-  const names = arr.map(element => element.name)
-  let result;
-  
-  (names.includes(name))
-    ? result = 'AlreadyAdded'
-    : result = name
-
-  return result
-}
-
-
-function setBlankField(setName, setPhone) {
-  setName('')
-  setPhone('')
-}
-
-function findID(newPerson, persons) {
-  const isTheContact = persons.find(person =>
-    person.name === newPerson.name)
-
-  return isTheContact.id
-}
-
-function showMessage(setMessage, message) {
-  setMessage(message)
-  setTimeout(() => { setMessage(null) }, 5000)
 }
 
 export default App
