@@ -1,4 +1,4 @@
-import { DeleteContact } from "./DeleteContact";
+import { DeleteContact } from './DeleteContact'
 
 export const Contacts = ({ contacts, deletePerson }) => {
   return (
@@ -7,11 +7,11 @@ export const Contacts = ({ contacts, deletePerson }) => {
         {contacts.map(person =>
           <li key={person.name}>
             <strong>Contact: </strong>
-              {person.name}
+            {person.name}
             <strong>&nbsp;Phone: </strong>
-              {person.phone}
+            {person.phone}
             <br />
-            <DeleteContact 
+            <DeleteContact
               handle={deletePerson}
               person={person}
             />
@@ -19,5 +19,5 @@ export const Contacts = ({ contacts, deletePerson }) => {
         )}
       </ol>
     </div>
-  );
+  )
 }
