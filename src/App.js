@@ -2,37 +2,36 @@ import React, { useState, useEffect } from 'react'
 import ContactForm from './components/ContactForm'
 import LoginForm from './components/LoginForm'
 import { Contacts } from './components/Contacts'
-import { SuccessNotification } from './components/Notifications'
+import { Notification } from './components/Notifications'
 import { Subtitle } from './components/Subtitle'
 import contactServices from './services/contacts'
 import { showMessage } from './utils/helper_methods'
 
 const App = () => {
   const [contacts, setContacts] = useState([])
-  const [typeNotification, setNotification] = useState('')
-  const [message, setMessage] = useState(null)
+  const [typeNotification, setTypeNotification] = useState('')
+  const [notification, setNotification] = useState(null)
   const [user, setUser] = useState(false)
 
   /* Otener los datos del el servidor la primera vez */
   useEffect(() => {
     contactServices
       .getAll()
-      .then(response => setContacts(response.data))
+      .then(response => {
+        const loggedUserJSON = window.localStorage.getItem('loggedContactAppUser')
+        if (loggedUserJSON) {
+          const user = JSON.parse(loggedUserJSON)
+          setUser(user)
+          contactServices.setToken(user.token)
+        }
+        setContacts(response.data)
+      })
   }, [])
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedContactAppUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      contactServices.setToken(user.token)
-    }
-  }, [])
-
-  const addContact = (newContacts, typeNotification, message) => {
+  const addContact = (newContacts, typeNotification, notification) => {
     setContacts(newContacts = contacts)
-    setNotification(typeNotification)
-    showMessage(setMessage, message)
+    setTypeNotification(typeNotification)
+    showMessage(setNotification, notification)
   }
 
   /* Eliminar un contacto de la lista */
@@ -60,8 +59,8 @@ const App = () => {
   return (
     <div>
       <h1>Wizard's Contacts</h1>
-      <SuccessNotification
-        message={message}
+      <Notification
+        message={notification}
         type={typeNotification}
       />
       {
