@@ -34,5 +34,7 @@ describe('<Toggleable />', () => {
   test('cancel button can be clicked', () => {
     const cancelButton = component.getByText('Cancel')
     fireEvent.click(cancelButton)
+
+    component.getByText('New contact')
   })
 })
