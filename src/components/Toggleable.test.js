@@ -30,11 +30,4 @@ describe('<Toggleable />', () => {
     const childrenElm = component.getByText('test div content')
     expect(childrenElm.parentNode).not.toHaveStyle('display: none')
   })
-
-  test('cancel button can be clicked', () => {
-    const cancelButton = component.getByText('Cancel')
-    fireEvent.click(cancelButton)
-
-    component.getByText('New contact')
-  })
 })
