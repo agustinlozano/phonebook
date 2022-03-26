@@ -68,11 +68,13 @@ const ContactForm = ({ contacts, addContact, handleLogout }) => {
           field='Name'
           value={newName}
           handle={handleInput(setNewName)}
+          placeholder='name'
         />
         <UserField
           field='Phone'
           value={newPhone}
           handle={handleInput(setNewPhone)}
+          placeholder='phone'
         />
         <div>
           <button type='submit' className='add-contact'>add</button>
