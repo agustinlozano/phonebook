@@ -1,4 +1,4 @@
-## Magic and mysterious contacts everywhere!
+## Let your contacts nearby!
 This project was designed to achieve a 100% web phonebook application. The tool provides your contacts easily while you browse the web.
 
 ## You can clone this repository
