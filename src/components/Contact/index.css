@@ -1,0 +1,63 @@
+.contact {
+  height: 6rem;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr;
+  
+  align-items: center;
+
+  border: 1px solid #f4e9cd;
+  border-radius: 5px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: auto;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 2rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+
+  align-items: start;
+  justify-content: center;
+
+  line-height: 0.01rem;
+  
+  margin-top: 0.4rem;
+}
+
+.contact img {
+  height: 5rem;
+  border-radius: 50%;
+}
+
+.contact b, p {
+  font-size: 0.7rem;
+}
+
+.contact b {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #468189;
+}
+
+.contact p {
+  color: #f4e9cd; 
+}
+
+.name {
+  color: #f4e9cd;
+  font-weight: bold;
+}
