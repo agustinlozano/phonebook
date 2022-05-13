@@ -1,0 +1,24 @@
+html,
+body {
+  font-family: system-ui;
+  color: #f4e9cd;
+  margin: 0;
+}
+
+body {
+  background-color: #02111b;
+}
+
+main {
+  padding: 4rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+  color: #468189;
+}
+
+a {
+  text-decoration: none;
+  color: #f4e9cd;
+}

@@ -1,0 +1,29 @@
+---
+// Component Imports
+import Contacts from '../components/Contacts/index.jsx'
+import Navbar from '../components/Navbar/index.jsx'
+import './index.css'
+
+const someProps = {
+	count: 0,
+}
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	</head>
+	<body>
+    <Navbar />
+		<main>
+			<Contacts {...someProps} client:visible>
+				<p style="color: white">Hello, React!</p>
+			</Contacts>
+		</main>
+	</body>
+</html>
