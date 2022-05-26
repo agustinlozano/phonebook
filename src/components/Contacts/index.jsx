@@ -11,6 +11,21 @@ export default function Contacts () {
         phoneNumber='2477 - 635371'
         emailAddress='agustinlozanoblua@gmail.com'
       />
+      <Contact
+        name='Agustin'
+        phoneNumber='2477 - 635371'
+        emailAddress='agustinlozanoblua@gmail.com'
+      />
+      <Contact
+        name='Agustin'
+        phoneNumber='2477 - 635371'
+        emailAddress='agustinlozanoblua@gmail.com'
+      />
+      <Contact
+        name='Agustin'
+        phoneNumber='2477 - 635371'
+        emailAddress='agustinlozanoblua@gmail.com'
+      />
     </div>
   )
 }
