@@ -13,9 +13,12 @@ main {
   padding: 4rem;
 }
 
+h1, h2 {
+  font-size: 1.2rem;
+}
+
 h2 {
-  font-size: 1.3rem;
-  color: #468189;
+  color: #38a3a5;
 }
 
 a {
