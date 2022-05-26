@@ -45,7 +45,7 @@
 }
 
 .contact b, p {
-  font-size: 0.63rem;
+  font-size: 0.65rem;
 }
 
 .contact b {
@@ -61,5 +61,10 @@
 
 .name {
   color: #f4e9cd;
+  font-weight: bold;
+}
+
+.phone-number {
+  font-size: 1rem;
   font-weight: bold;
 }

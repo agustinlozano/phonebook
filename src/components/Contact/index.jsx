@@ -11,7 +11,7 @@ const Contact = ({ name, phoneNumber, emailAddress }) => {
           <spam className='name'>&bull; {name}</spam>
         </div>
         <div className='contact-info'>
-          <b className='phone-number'>Tel: <p>{phoneNumber}</p></b>
+          <p className='phone-number'>{phoneNumber}</p>
           <b className='email'>Email: <p>{emailAddress}</p></b>
         </div>
       </div>
