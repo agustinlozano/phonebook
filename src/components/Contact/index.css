@@ -1,12 +1,13 @@
 .contact {
   height: 6rem;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr;
-  
+
   align-items: center;
 
-  border: 1px solid #f4e9cd;
+  border-bottom: 1px solid #4C566A;
   border-radius: 5px;
 }
 
@@ -22,7 +23,7 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  margin-left: 2rem;
+  margin-left: 0.5rem;
 }
 
 .contact-info {
@@ -33,28 +34,29 @@
   justify-content: center;
 
   line-height: 0.01rem;
-  
+
   margin-top: 0.4rem;
+  margin-right: 0.4rem;
 }
 
 .contact img {
-  height: 5rem;
+  height: 4rem;
   border-radius: 50%;
 }
 
 .contact b, p {
-  font-size: 0.7rem;
+  font-size: 0.63rem;
 }
 
 .contact b {
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: #468189;
+  color: #38a3a5;
 }
 
 .contact p {
-  color: #f4e9cd; 
+  color: #f4e9cd;
 }
 
 .name {
