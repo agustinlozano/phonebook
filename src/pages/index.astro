@@ -1,7 +1,7 @@
 ---
 // Component Imports
-import Contacts from '../components/Contacts/index.jsx'
 import Navbar from '../components/Navbar/index.jsx'
+import App from '../components/App.jsx'
 import './index.css'
 
 const someProps = {
@@ -21,9 +21,8 @@ const someProps = {
 	<body>
     <Navbar />
 		<main>
-			<Contacts {...someProps} client:visible>
-				<p style="color: white">Hello, React!</p>
-			</Contacts>
+      <App client:visible />
+			<!-- <Contacts {...someProps} client:visible /> -->
 		</main>
 	</body>
 </html>

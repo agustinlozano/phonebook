@@ -1,31 +1,18 @@
-import React from 'react'
 import Contact from '../Contact/index.jsx'
 import './index.css'
 
-export default function Contacts () {
+export default function Contacts ({ contacts, deletePerson }) {
   return (
     <div className='contacts'>
       <h2>My Contacts</h2>
-      <Contact
-        name='Agustin'
-        phoneNumber='2477 - 635371'
-        emailAddress='agustinlozanoblua@gmail.com'
-      />
-      <Contact
-        name='Agustin'
-        phoneNumber='2477 - 635371'
-        emailAddress='agustinlozanoblua@gmail.com'
-      />
-      <Contact
-        name='Agustin'
-        phoneNumber='2477 - 635371'
-        emailAddress='agustinlozanoblua@gmail.com'
-      />
-      <Contact
-        name='Agustin'
-        phoneNumber='2477 - 635371'
-        emailAddress='agustinlozanoblua@gmail.com'
-      />
+      {contacts.map(person =>
+        <Contact
+          key={person.name}
+          name={person.name}
+          phoneNumber={person.phone}
+          emailAddress='agustinlozanoblua@gmail.com'
+        />
+      )}
     </div>
   )
 }
